@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+import 'package:pagbank/data/user.dart';
 
 class CircularArc extends StatelessWidget {
   const CircularArc({Key? key}) : super(key: key);
@@ -48,8 +50,15 @@ class DashboardScreen extends StatefulWidget {
 }
 
 class _DashboardScreenState extends State<DashboardScreen> {
+  final formatCurrency = NumberFormat.currency(locale: "pt_BR", symbol: "R\$");
+
   @override
   Widget build(BuildContext context) {
+    final double creditCardLimitAvailable = User().creditCard.limit - User().creditCard.used;
+    final double creditCardLimitUsedPercentage = (User().creditCard.used / User().creditCard.limit) * 100;
+    final double creditCardProgressLimit = MediaQuery.of(context).size.width - 88.0;
+    final double creditCardProgressLimitUsed = ((creditCardProgressLimit / 100) * creditCardLimitUsedPercentage);
+
     return Scaffold(
       backgroundColor: Colors.black,
       body: SingleChildScrollView(
@@ -145,8 +154,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        const SelectableText('R\$ 11.500',
-                          style: TextStyle(fontSize: 26, fontWeight: FontWeight.w500, color: Colors.white)
+                        SelectableText(formatCurrency.format(User().money),
+                          style: const TextStyle(fontSize: 26, fontWeight: FontWeight.w500, color: Colors.white)
                         ),
                         IconButton(
                           onPressed: () {},
@@ -160,12 +169,12 @@ class _DashboardScreenState extends State<DashboardScreen> {
                       padding: const EdgeInsets.only(top: 16.0),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: const [
-                          Text('A receber',
+                        children: [
+                          const Text('A receber',
                             style: TextStyle(fontSize: 15, color: Colors.white70)
                           ),
-                          SelectableText('R\$ 5.400',
-                            style: TextStyle(fontSize: 15, fontWeight: FontWeight.w500, color: Colors.white)
+                          SelectableText(formatCurrency.format(User().moneyInQueue),
+                            style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w500, color: Colors.white)
                           ),
                         ],
                       ),
@@ -228,8 +237,9 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                   Text('Fatura atual',
                                     style: TextStyle(fontSize: 15.0, color: Colors.white.withOpacity(0.80)),
                                   ),
-                                  const SelectableText('R\$ 2.300,45',
-                                    style: TextStyle(fontSize: 26.0, fontWeight: FontWeight.w500, color: Colors.white),
+                                  SelectableText(
+                                    formatCurrency.format(User().creditCard.used),
+                                    style: const TextStyle(fontSize: 26.0, fontWeight: FontWeight.w500, color: Colors.white),
                                   )
                                 ],
                               ),
@@ -247,7 +257,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                             child: Stack(
                               children: [
                                 Container(
-                                  width: 80.0,
+                                  width: creditCardProgressLimitUsed,
                                   height: 4.0,
                                   decoration: BoxDecoration(
                                     color: Colors.white,
@@ -260,12 +270,13 @@ class _DashboardScreenState extends State<DashboardScreen> {
                           const SizedBox(height: 8.68),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: const [
-                              Text('Limite disponível',
+                            children: [
+                              const Text('Limite disponível',
                                 style: TextStyle(fontSize: 13.33, color: Colors.white)
                               ),
-                              Text('R\$ 7.670,90',
-                                style: TextStyle(fontSize: 13.33, fontWeight: FontWeight.w500, color: Colors.white)
+                              Text(
+                                formatCurrency.format(creditCardLimitAvailable),
+                                style: const TextStyle(fontSize: 13.33, fontWeight: FontWeight.w500, color: Colors.white)
                               ),
                             ],
                           ),
@@ -443,9 +454,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
       ),
       bottomNavigationBar: Container(
         width: double.infinity,
-        constraints: const BoxConstraints(
-          maxHeight: 80
-        ),
+        height: 80 + (MediaQuery.of(context).viewPadding.bottom),
+        padding: const EdgeInsets.only(top: 20.0),
         decoration: const BoxDecoration(
           color: Colors.white12,
           borderRadius: BorderRadius.only(
@@ -453,54 +463,46 @@ class _DashboardScreenState extends State<DashboardScreen> {
             topRight: Radius.circular(20.0),
           )
         ),
-        child: SafeArea(
-          top: false,
-          bottom: true,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Image.asset('images/home.png'),
-                  const SizedBox(height: 3.25),
-                  const Text('Home',
-                    style: TextStyle(fontSize: 14.0, fontWeight: FontWeight.w500, color: Colors.white),
-                  ),
-                ],
-              ),
-              Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Image.asset('images/extract.png', color: Colors.white54),
-                  const SizedBox(height: 3.25),
-                  const Text('Extrato',
-                    style: TextStyle(fontSize: 14.0, color: Colors.white54),
-                  ),
-                ],
-              ),
-              Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Image.asset('images/sales-report.png', color: Colors.white54),
-                  const SizedBox(height: 3.25),
-                  const Text('Vendas',
-                    style: TextStyle(fontSize: 14.0, color: Colors.white54),
-                  ),
-                ],
-              ),
-              Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Image.asset('images/bank-card.png', color: Colors.white54),
-                  const SizedBox(height: 3.25),
-                  const Text('Cartões',
-                    style: TextStyle(fontSize: 14.0, color: Colors.white54),
-                  ),
-                ],
-              ),
-            ],
-          ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            Column(
+              children: [
+                Image.asset('images/home.png'),
+                const SizedBox(height: 3.25),
+                const Text('Home',
+                  style: TextStyle(fontSize: 14.0, fontWeight: FontWeight.w500, color: Colors.white),
+                ),
+              ],
+            ),
+            Column(
+              children: [
+                Image.asset('images/extract.png', color: Colors.white54),
+                const SizedBox(height: 3.25),
+                const Text('Extrato',
+                  style: TextStyle(fontSize: 14.0, color: Colors.white54),
+                ),
+              ],
+            ),
+            Column(
+              children: [
+                Image.asset('images/sales-report.png', color: Colors.white54),
+                const SizedBox(height: 3.25),
+                const Text('Vendas',
+                  style: TextStyle(fontSize: 14.0, color: Colors.white54),
+                ),
+              ],
+            ),
+            Column(
+              children: [
+                Image.asset('images/bank-card.png', color: Colors.white54),
+                const SizedBox(height: 3.25),
+                const Text('Cartões',
+                  style: TextStyle(fontSize: 14.0, color: Colors.white54),
+                ),
+              ],
+            ),
+          ],
         ),
       ),
     );
