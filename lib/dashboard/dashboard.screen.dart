@@ -145,7 +145,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        const Text('R\$ 11.500',
+                        const SelectableText('R\$ 11.500',
                           style: TextStyle(fontSize: 26, fontWeight: FontWeight.w500, color: Colors.white)
                         ),
                         IconButton(
@@ -164,7 +164,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                           Text('A receber',
                             style: TextStyle(fontSize: 15, color: Colors.white70)
                           ),
-                          Text('R\$ 5.400',
+                          SelectableText('R\$ 5.400',
                             style: TextStyle(fontSize: 15, fontWeight: FontWeight.w500, color: Colors.white)
                           ),
                         ],
@@ -220,6 +220,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                         children: [
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -227,7 +228,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                   Text('Fatura atual',
                                     style: TextStyle(fontSize: 15.0, color: Colors.white.withOpacity(0.80)),
                                   ),
-                                  const Text('R\$ 2.300,45',
+                                  const SelectableText('R\$ 2.300,45',
                                     style: TextStyle(fontSize: 26.0, fontWeight: FontWeight.w500, color: Colors.white),
                                   )
                                 ],
@@ -443,7 +444,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
       bottomNavigationBar: Container(
         width: double.infinity,
         constraints: const BoxConstraints(
-          maxHeight: 130
+          maxHeight: 100
         ),
         decoration: const BoxDecoration(
           color: Colors.white12,

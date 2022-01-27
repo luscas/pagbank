@@ -10,7 +10,7 @@ class BootstrapApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Pagbank',
+      title: 'PagBank',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primarySwatch: AppTheme().primary,
