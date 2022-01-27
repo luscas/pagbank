@@ -138,7 +138,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                     Padding(
                       padding: const EdgeInsets.only(top: 32.0),
                       child: Text('Saldo',
-                        style: TextStyle(fontSize: 15, color: Colors.white.withOpacity(0.15))
+                        style: TextStyle(fontSize: 15, color: Colors.white.withOpacity(0.50))
                       ),
                     ),
                     const SizedBox(height: 2.75),
@@ -442,7 +442,9 @@ class _DashboardScreenState extends State<DashboardScreen> {
       ),
       bottomNavigationBar: Container(
         width: double.infinity,
-        height: 70.0,
+        constraints: const BoxConstraints(
+          maxHeight: 130
+        ),
         decoration: const BoxDecoration(
           color: Colors.white12,
           borderRadius: BorderRadius.only(
@@ -450,50 +452,52 @@ class _DashboardScreenState extends State<DashboardScreen> {
             topRight: Radius.circular(20.0),
           )
         ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Image.asset('images/home.png'),
-                const SizedBox(height: 3.25),
-                const Text('Home',
-                  style: TextStyle(fontSize: 14.0, fontWeight: FontWeight.w500, color: Colors.white),
-                ),
-              ],
-            ),
-            Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Image.asset('images/extract.png', color: Colors.white54),
-                const SizedBox(height: 3.25),
-                const Text('Extrato',
-                  style: TextStyle(fontSize: 14.0, color: Colors.white54),
-                ),
-              ],
-            ),
-            Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Image.asset('images/sales-report.png', color: Colors.white54),
-                const SizedBox(height: 3.25),
-                const Text('Vendas',
-                  style: TextStyle(fontSize: 14.0, color: Colors.white54),
-                ),
-              ],
-            ),
-            Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Image.asset('images/bank-card.png', color: Colors.white54),
-                const SizedBox(height: 3.25),
-                const Text('Cartões',
-                  style: TextStyle(fontSize: 14.0, color: Colors.white54),
-                ),
-              ],
-            ),
-          ],
+        child: SafeArea(
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Image.asset('images/home.png'),
+                  const SizedBox(height: 3.25),
+                  const Text('Home',
+                    style: TextStyle(fontSize: 14.0, fontWeight: FontWeight.w500, color: Colors.white),
+                  ),
+                ],
+              ),
+              Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Image.asset('images/extract.png', color: Colors.white54),
+                  const SizedBox(height: 3.25),
+                  const Text('Extrato',
+                    style: TextStyle(fontSize: 14.0, color: Colors.white54),
+                  ),
+                ],
+              ),
+              Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Image.asset('images/sales-report.png', color: Colors.white54),
+                  const SizedBox(height: 3.25),
+                  const Text('Vendas',
+                    style: TextStyle(fontSize: 14.0, color: Colors.white54),
+                  ),
+                ],
+              ),
+              Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Image.asset('images/bank-card.png', color: Colors.white54),
+                  const SizedBox(height: 3.25),
+                  const Text('Cartões',
+                    style: TextStyle(fontSize: 14.0, color: Colors.white54),
+                  ),
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );
