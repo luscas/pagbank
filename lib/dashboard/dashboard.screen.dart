@@ -444,7 +444,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
       bottomNavigationBar: Container(
         width: double.infinity,
         constraints: const BoxConstraints(
-          maxHeight: 100
+          maxHeight: 80
         ),
         decoration: const BoxDecoration(
           color: Colors.white12,
@@ -454,6 +454,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
           )
         ),
         child: SafeArea(
+          top: false,
+          bottom: true,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
