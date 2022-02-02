@@ -5,7 +5,8 @@ import 'package:pagbank/theme.dart';
 
 void main() {
   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark.copyWith(
-    statusBarColor: Colors.white,
+    statusBarColor: Colors.black38,
+    statusBarIconBrightness: Brightness.light,
     statusBarBrightness: Brightness.dark
   ));
 

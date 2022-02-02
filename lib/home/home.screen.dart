@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:pagbank/home/home.components.dart';
+import 'package:pagbank/home/components/gradient_text.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({Key? key}) : super(key: key);
