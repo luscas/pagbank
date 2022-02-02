@@ -1,46 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:pagbank/dashboard/components/circular_paint.dart';
 import 'package:pagbank/data/user.dart';
-
-class CircularArc extends StatelessWidget {
-  const CircularArc({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: 55,
-      height: 55,
-      decoration: BoxDecoration(
-        shape: BoxShape.circle,
-        boxShadow: [
-          BoxShadow(
-            color: const Color(0xFF8BC26A).withOpacity(0.3),
-            blurRadius: 18.94,
-          ),
-          BoxShadow(
-            color: const Color(0xFF54A99A).withOpacity(0.3),
-            blurRadius: 18.94,
-          )
-        ],
-        gradient: const LinearGradient(
-          colors: [
-            Color(0xFF8BC26A),
-            Color(0xFF54A99A)
-          ],
-          begin: Alignment.centerLeft
-        ),
-      ),
-      child: Container(
-        margin: const EdgeInsets.all(4.0),
-        decoration: const BoxDecoration(
-          color: Colors.black,
-          shape: BoxShape.circle
-        ),
-        child: Image.asset('images/user.png'),
-      ),
-    );
-  }
-}
 
 class DashboardScreen extends StatefulWidget {
   const DashboardScreen({Key? key}) : super(key: key);
@@ -49,8 +10,32 @@ class DashboardScreen extends StatefulWidget {
   State<DashboardScreen> createState() => _DashboardScreenState();
 }
 
-class _DashboardScreenState extends State<DashboardScreen> {
+class _DashboardScreenState extends State<DashboardScreen> with SingleTickerProviderStateMixin {
   final formatCurrency = NumberFormat.currency(locale: "pt_BR", symbol: "R\$");
+  double sliderValue = 0.0;
+
+  late Animation<double> animation;
+  late AnimationController controller;
+
+  @override
+  void initState() {
+    controller =
+        AnimationController(vsync: this, duration: const Duration(milliseconds: 1500));
+    animation = Tween<double>(begin: 0.0, end: 0.75).animate(controller)
+      ..addListener(() {
+        setState(() {});
+      });
+
+    controller.forward();
+
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    controller.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -291,7 +276,35 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 padding: const EdgeInsets.only(top: 30.0, left: 25.0, right: 25.0,),
                 child: Row(
                   children: [
-                    const CircularArc(),
+                    // const CircularArc(),
+                    Container(
+                      width: 55,
+                      height: 55,
+                      decoration: const BoxDecoration(
+                        shape: BoxShape.circle,
+                        boxShadow: [
+                          BoxShadow(
+                            color: Color.fromRGBO(143,195,103,0.18),
+                            blurStyle: BlurStyle.outer,
+                            blurRadius: 18.0
+                          ),
+                          BoxShadow(
+                            color: Color.fromRGBO(82,184,180,0.18),
+                            blurStyle: BlurStyle.outer,
+                            blurRadius: 18.0,
+                          )
+                        ]
+                      ),
+                      child: CustomPaint(
+                        size: const Size(55, 55), // no effect while adding child
+                        painter: CircularPaint(
+                          progressValue: animation.value.toDouble(),
+                        ),
+                        child: Center(
+                          child: Image.asset('images/user.png'),
+                        ),
+                      ),
+                    ),
 
                     Expanded(
                       child: Container(
